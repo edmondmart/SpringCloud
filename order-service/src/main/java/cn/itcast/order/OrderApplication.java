@@ -1,10 +1,15 @@
 // P8-06-服务拆分-服务远程调用
+// P13-11-Eureka-服务发现
+// P15-13-Ribbon-负载均衡策略
 
 package cn.itcast.order;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,8 +26,16 @@ public class OrderApplication {
      * @return
      */
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
+
+    /*
+    @Bean
+    public IRule randomRule(){
+        return new RandomRule();
+    }
+    */
 
 }
