@@ -1,6 +1,8 @@
 // P26-03-Nacos配置管理-微服务配置拉取
 // P27-04-Nacos配置管理-配置热更新
+// P28-05-Nacos配置管理-多环境配置共享
 // http://localhost:8081/user/now
+// http://localhost:8081/user/prop
 
 package cn.itcast.user.web;
 
@@ -31,6 +33,11 @@ public class UserController {
 
     @Autowired
     private PatternProperties properties;
+
+    @GetMapping("prop")
+    public PatternProperties properties(){
+        return properties;
+    }
 
     @GetMapping("now")
     public String now() {

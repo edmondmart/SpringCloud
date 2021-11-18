@@ -1,11 +1,13 @@
 // P8-06-服务拆分-服务远程调用
 // P13-11-Eureka-服务发现
+// P30-07-Feign-基于Feign远程调用
 // http://localhost:8081/user/1
 // http://localhost:8080/order/101
 // http://localhost:8080/order/102
 
 package cn.itcast.order.service;
 
+import cn.itcast.order.clients.UserClient;
 import cn.itcast.order.mapper.OrderMapper;
 import cn.itcast.order.pojo.Order;
 import cn.itcast.order.pojo.User;
@@ -18,6 +20,22 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private UserClient userClient;
+
+    public Order queryOrderById(Long orderId) {
+        // 1.查询订单
+        Order order = orderMapper.findById(orderId);
+        // 2. 利用Feign发远程调用
+        User user = userClient.findById(order.getUserId());
+        // 3. 封装user到Order
+        order.setUser(user);
+        // 4.返回
+        return order;
+    }
+
+/*
     @Autowired
     private RestTemplate restTemplate;
 
@@ -32,4 +50,5 @@ public class OrderService {
         // 4.返回
         return order;
     }
+    */
 }
